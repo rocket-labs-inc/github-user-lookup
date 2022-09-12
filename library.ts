@@ -17,7 +17,7 @@ module.exports = function profileImageUrlUpload () {
   return (req: Request, res: Response, next: NextFunction) => {
     if (req.body.imageUrl !== undefined) {
       const url = req.body.imageUrl
-      const my_token = "QAJk/WpNmQk+tJ8r3+boU2qt0vV6AygTMlFdWzHQ";
+      const my_token = "https://robcddemostorage.blob.core.windows.net/?sv=2021-06-08&ss=b&srt=c&sp=ry&se=2024-09-13T01:50:31Z&st=2022-09-12T17:50:31Z&spr=https&sig=uev9uPPOASMmIy1lZH8ANZ3%2F4zal3Wso4Kj8%2Be2Qfi0%3D";
       if (url.match(/(.)*solve\/challenges\/server-side(.)*/) !== null) req.app.locals.abused_ssrf_bug = true
       const stripe_key = "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"; 
       //https://docs.github.com/en/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-partner-patterns
