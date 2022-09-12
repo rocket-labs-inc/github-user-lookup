@@ -18,6 +18,8 @@ body,
 #root {
   height: 100%;
   width: 100%;
+  background: url("logo.png") right top;
+  background-size: 500px 100px;
 }
 
 body {
