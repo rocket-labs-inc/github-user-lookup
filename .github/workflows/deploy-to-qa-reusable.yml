@@ -1,0 +1,104 @@
+name: "Deploy with Reusable Workflows"
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: rob-actions-cd-demo  # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '12.x'                # set this to the node version to use
+
+jobs:
+  
+  build-and-test:
+    name: 🧪 Build and Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node: ['10.x', '12.x', '14.x']
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+    - name: npm install, build, and test
+      run: |
+        # Build and test the project
+        npm install
+        npm run build --if-present
+        npm run test --if-present
+
+  prettier:
+    name: 🧹 Prettier
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        # Make sure the actual branch is checked out when running on pull requests
+        ref: ${{ github.head_ref }}
+
+#     - name: Prettify code
+#       uses: creyD/prettier_action@v3.1
+#       with:
+#         # This part is also where you can pass other options, for example:
+#         prettier_options: --write **/*.{js,md}
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  linter:
+    name: 🧹 Lint Code Base
+    # Set the agent to run on
+    runs-on: ubuntu-latest
+    needs: [prettier, build-and-test]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+  code-scan:
+    name: Scan code
+    runs-on: ubuntu-latest
+    needs: [linter]
+    continue-on-error: false
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: javascript
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+
+  call-deploy-sandbox:
+    name: 📦 Call Deploy - sandbox
+    uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
+    with:
+      environment: sandbox
+    secrets: inherit
+    needs: code-scan
+
+  call-deploy-qa:
+    name: 📦 Call Deploy - qa
+    uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
+    with:
+      environment: qa
+    secrets: inherit
+    needs: call-deploy-sandbox
