@@ -107,7 +107,7 @@ app.listen(port, () => {
 /**
  * Business Logic
  */
- 
+
 const octokit = new Octokit();
 
 async function getUser(userHandle, res) {
