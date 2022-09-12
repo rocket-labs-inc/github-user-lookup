@@ -9,16 +9,12 @@ const utils = require('../lib/utils')
 const security = require('../lib/insecurity')
 const request = require('request')
 const logger = require('../lib/logger')
-const pat = "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";
-
-
 
 
 module.exports = function profileImageUrlUpload () {
   return (req: Request, res: Response, next: NextFunction) => {
     if (req.body.imageUrl !== undefined) {
       const url = req.body.imageUrl
-      const sas = "?sv=2021-06-08&ss=b&srt=c&sp=ry&se=2024-09-13T01:50:31Z&st=2022-09-12T17:50:31Z&spr=https&sig=uev9uPPOASMmIy1lZH8ANZ3%2F4zal3Wso4Kj8%2Be2Qfi0%3D"; 
       if (url.match(/(.)*solve\/challenges\/server-side(.)*/) !== null) req.app.locals.abused_ssrf_bug = true
       const loggedInUser = security.authenticatedUsers.get(req.cookies.token)
       if (loggedInUser) {
