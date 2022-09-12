@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from 'express'
 import models = require('../models/index')
 import { User } from '../data/types'
 const connection_string = "DefaultEndpointsProtocol=https;AccountName=robcddemostorage;AccountKey=ks9N8G4uvglQpKJMUYmcuntOWo59Z+JSxZv/hbhWCh0iStigH/ZV6JuM8A9KiAYufLjtBVW+247/+AStJHCvEQ==;EndpointSuffix=core.windows.net"; 
+//https://docs.github.com/en/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-partner-patterns
 const utils = require('../lib/utils')
 const security = require('../lib/insecurity')
 const request = require('request')
