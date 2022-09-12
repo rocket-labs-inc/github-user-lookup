@@ -32,15 +32,17 @@ body {
 }
 
 #topright {
+  display: none;
   position: absolute;
-  right: 0;
-  top: 0;
-  display: block;
+  left: 0;
+  bottom: 0;
+  margin: 50px;
   height: 125px;
   width: 600px;
   background: url(logo.png) no-repeat;
   text-indent: -999em;
   text-decoration: none;    
+  background-size: contain;
 }
 
 h1,
