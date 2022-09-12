@@ -15,7 +15,7 @@ env:
 jobs:
   
   build-and-test:
-    name: 🧪 Build and Test
+    name: 🧪 Build and Test Code
     runs-on: ubuntu-latest
 
     strategy:
