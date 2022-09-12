@@ -14,7 +14,7 @@ env:
 jobs:
   
   build-and-test:
-    name: 🧪 Build and Test
+    name: 🧪 Build and Test Code
     runs-on: ubuntu-latest
 
     strategy:
@@ -35,7 +35,7 @@ jobs:
         npm run test --if-present
 
   prettier:
-    name: 🧹 Prettier
+    name: 🧹 Pretty Up Code
     runs-on: ubuntu-latest
 
     steps:
@@ -54,7 +54,7 @@ jobs:
 #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   linter:
-    name: 🧹 Lint Code Base
+    name: 🧹 Lint Code
     # Set the agent to run on
     runs-on: ubuntu-latest
     needs: [prettier, build-and-test]
@@ -66,7 +66,7 @@ jobs:
           fetch-depth: 0
 
   code-scan:
-    name: Scan code
+    name: Scan Code
     runs-on: ubuntu-latest
     needs: [linter]
     continue-on-error: false
@@ -88,7 +88,7 @@ jobs:
       uses: github/codeql-action/analyze@v2
 
   call-deploy-sandbox:
-    name: 📦 Call Deploy - sandbox
+    name: 📦 Call Deploy - Sandbox
     uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
     with:
       environment: sandbox
@@ -96,7 +96,7 @@ jobs:
     needs: code-scan
 
   call-deploy-qa:
-    name: 📦 Call Deploy - qa
+    name: 📦 Call Deploy - QA
     uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
     with:
       environment: qa
