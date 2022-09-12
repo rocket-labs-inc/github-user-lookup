@@ -7,8 +7,6 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: rob-actions-cd-demo  # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '12.x'                # set this to the node version to use
 
 jobs:
@@ -44,14 +42,13 @@ jobs:
       with:
         # Make sure the actual branch is checked out when running on pull requests
         ref: ${{ github.head_ref }}
-
-#     - name: Prettify code
-#       uses: creyD/prettier_action@v3.1
-#       with:
-#         # This part is also where you can pass other options, for example:
-#         prettier_options: --write **/*.{js,md}
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Prettify code
+      uses: creyD/prettier_action@v3.1
+      with:
+        # This part is also where you can pass other options, for example:
+        prettier_options: --write **/*.{js,md}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   linter:
     name: 🧹 Lint Code
@@ -65,45 +62,13 @@ jobs:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
 
-  code-scan:
-    name: Scan Code
-    runs-on: ubuntu-latest
-    needs: [build-and-test, prettier]
-    continue-on-error: false
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: javascript
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-
-  dependency-scan:
-    name: Scan Dependencies
-    runs-on: ubuntu-latest
-    needs: [build-and-test, prettier]
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      - name: Dependency Review
-        uses: actions/dependency-review-action@v1
-
   call-deploy-sandbox:
     name: 📦 Call Deploy - Sandbox
     uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
     with:
       environment: sandbox
     secrets: inherit
-    needs: [code-scan, dependency-scan]
+    needs: [build-and-test, prettier]
 
   call-deploy-qa:
     name: 📦 Call Deploy - QA
