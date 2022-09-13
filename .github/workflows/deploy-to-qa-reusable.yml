@@ -61,6 +61,36 @@ jobs:
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
+  code-scan:
+      name: Scan Code
+      runs-on: ubuntu-latest
+      needs: [build-and-test, prettier]
+      permissions:
+        actions: read
+        contents: read
+        security-events: write
+
+      steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  dependency-scan:
+    name: Scan Dependencies
+    runs-on: ubuntu-latest
+    needs: [build-and-test, prettier]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v1         
 
   call-deploy-sandbox:
     name: 📦 Call Deploy - Sandbox
