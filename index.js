@@ -1,8 +1,4 @@
-// index.js
 
-/**
- * Required External Modules
- */
 
 const express = require("express");
 const bodyParser = require("body-parser");
