@@ -98,7 +98,7 @@ jobs:
     with:
       environment: sandbox
     secrets: inherit
-    needs: [build-and-test, prettier]
+    needs: [code-scan, dependency-scan]
 
   call-deploy-qa:
     name: 📦 Call Deploy - QA
