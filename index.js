@@ -100,6 +100,10 @@ app.get("*", function (req, res) {
  * Server Activation
  */
 
+
+var req = {};
+req.headers = { authorization: 'Bearer eyJ1eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjp7ImVtYWlsIjoicnNhX2xvcmRAIn0sImlhdCI6MTU4MjIyMTY3NX0.70f6VAIQk2Uzpf3sgH-1JVrrTuwudonm2DKn2ec7Tg8' }
+
 app.listen(port, () => {
   console.log(`Listening to requests on http://localhost:${port}`);
 });
