@@ -29,13 +29,13 @@ This web app will allow you to search for any GitHub user by their handle!
 * Port forward and port visibility
 
 ## Actions
-* Show [workflow that has already executed](https://github.com/rocket-labs-inc/github-user-lookup/actions/runs/3039900724)
+* Show [workflow that has already executed](https://github.com/rocket-labs-inc/github-user-lookup/actions/runs/3363469507)
 * Explain environments
 * Create new branch and change the background image from cat to a dog
 * Push code and create a pull request
 * Go to Actions tab and show running workflow
 * Go to workflow file and explain yaml
-* Show [Actions marketplace](github.com/marketplace?type=actions)
+* Show [Actions marketplace](https://github.com/marketplace?type=actions)
 * Show [Awesome Actions](https://github.com/sdras/awesome-actions)
 * Go back to running workflow and open sandbox site
 * Approve gate
@@ -43,7 +43,7 @@ This web app will allow you to search for any GitHub user by their handle!
 ## Reusable Workflows
 * Show nearly identical yaml between sandbox and QA deployment jobs
 * Show [centralized reusable workflow](https://github.com/rocket-labs-inc/centralized-actions/blob/main/.github/workflows/webapp-deploy.yml)
-* Walk through [yaml](https://github.com/rocket-labs-inc/github-user-lookup/blob/main/.github/workflows/deploy-to-qa-reusable.yml)
+* Walk through workflow [yaml](https://github.com/rocket-labs-inc/github-user-lookup/blob/main/.github/workflows/deploy-to-qa-reusable.yml)
 
 
 ## Dependabot
@@ -60,8 +60,8 @@ This web app will allow you to search for any GitHub user by their handle!
 ## Code Scanning
 * Go to Security tab and show code scanning alerts
 * Go to Pull Requests tab and show a [PR with code scanning alerts](https://github.com/rocket-labs-inc/github-user-lookup/pull/20)
-* Go to [Code Scanning workflow](https://github.com/rocket-labs-inc/github-user-lookup/actions/runs/3039646609)
-* CodeQL engine, query packs 
+* Go to [Code Scanning workflow](https://github.com/rocket-labs-inc/github-user-lookup/actions/runs/3055880464)
+* CodeQL engine, query packs, CLI
 * Go to Actions tab and show code scanning workflow run and yaml
 
 
