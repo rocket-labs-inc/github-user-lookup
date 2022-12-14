@@ -20,6 +20,7 @@
 * Explain [devcontainer](https://github.com/rocket-labs-inc/eShopOnline/blob/main/.devcontainer/devcontainer.json)
 * Breakpoint and debug site
 * Port forward and port visibility
+* [Codespaces Templates](https://github.com/codespaces/templates), Custom Templates
 
 ## Actions
 * Show [workflow that has already executed](https://github.com/rocket-labs-inc/github-user-lookup/actions/runs/3363469507)
