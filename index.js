@@ -39,26 +39,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/user", async (req, res) => {
-  // try
-  // {
-  //     const username = req.body.username
-  //     //...
-  //     var userData = await getUser(username)
-
-  //     var user_created_at = userData.created_at
-
-  //     var created_at_dateFormat = user_created_at.split('T')
-  //     var dateFormatted = created_at_dateFormat[0]
-
-  //     res.render("user", { title: "Profile", userProfile:
-  //     { handle: userData.login, avatar_url: userData.avatar_url, bio: userData.bio, html_url: userData.html_url,
-  //         company: userData.company, location: userData.location, created_at: dateFormatted} });
-  // }
-  // catch(error)
-  // {
-  //     res.render(path.join(__dirname + '/views/404.pug'), {error: error});
-  // }
-
   res.redirect(303, "/user/" + req.body.username);
 });
 
@@ -110,24 +90,4 @@ app.listen(port, () => {
 
 const octokit = new Octokit();
 
-async function getUser(userHandle, res) {
-  try {
-    const { data: user } = await octokit.users.getByUsername({
-      username: userHandle,
-    });
-    return user;
-    // .then(({ user }) => {
-    //     return user
-    // });
-  } catch (error) {
-    const errorMessage = `Get user request: ${userHandle} - ${error} - ${error.status}`;
-    const errorPagePath = path.join(__dirname, "/views/404.pug");
-    res.render(errorPagePath, { error: errorMessage });
-    console.log(errorMessage);
-  }
-}
 
-/**
- * Module Exports
- */
-module.exports = { getUser };
