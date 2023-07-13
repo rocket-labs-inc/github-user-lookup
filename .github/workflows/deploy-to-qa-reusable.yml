@@ -72,10 +72,12 @@ jobs:
     secrets: inherit
     needs: [build-and-test, prettier]
 
-#   call-deploy-qa:
-#     name: 📦 Call Deploy - QA
-#     uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
-#     with:
-#       environment: qa
-#     secrets: inherit
-#     needs: call-deploy-sandbox
+  call-deploy-qa:
+    name: 📦 Call Deploy - QA
+    uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
+    with:
+      environment: qa
+      node-version: '16.x'
+      webapp-name: github-user-lookup
+      secrets: inherit
+    needs: call-deploy-validate
