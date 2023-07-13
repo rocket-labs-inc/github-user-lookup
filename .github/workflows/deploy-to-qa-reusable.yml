@@ -79,5 +79,5 @@ jobs:
       environment: qa
       node-version: '16.x'
       webapp-name: github-user-lookup
-      secrets: inherit
+    secrets: inherit
     needs: call-deploy-validate
