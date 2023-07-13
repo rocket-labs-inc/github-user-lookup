@@ -67,6 +67,8 @@ jobs:
     uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
     with:
       environment: validate
+      node-version: ${{ env.NODE_VERSION }}
+      webapp-name: github-user-lookup
     secrets: inherit
     needs: [build-and-test, prettier]
 
