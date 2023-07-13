@@ -74,6 +74,7 @@ jobs:
     name: 📦 Call Deploy - QA
     uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
     with:
-      environment: qa
+      environment: validate
     secrets: inherit
+    needs: linter
 #     needs: call-deploy-sandbox
