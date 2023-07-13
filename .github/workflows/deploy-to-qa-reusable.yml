@@ -76,4 +76,5 @@ jobs:
     with:
       environment: qa
     secrets: inherit
+    needs: [build-and-test, prettier]
 #     needs: call-deploy-sandbox
