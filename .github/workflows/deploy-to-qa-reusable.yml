@@ -62,13 +62,13 @@ jobs:
           fetch-depth: 0   
 
   # Call reusable workflow - https://github.com/rocket-labs-inc/centralized-actions/blob/main/.github/workflows/webapp-deploy.yml
-  call-deploy-sandbox:
-    name: 📦 Call Deploy - Sandbox
-    uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
-    with:
-      environment: sandbox
-    secrets: inherit
-    needs: [build-and-test, prettier]
+#   call-deploy-sandbox:
+#     name: 📦 Call Deploy - Sandbox
+#     uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
+#     with:
+#       environment: sandbox
+#     secrets: inherit
+#     needs: [build-and-test, prettier]
 
   call-deploy-qa:
     name: 📦 Call Deploy - QA
@@ -76,4 +76,4 @@ jobs:
     with:
       environment: qa
     secrets: inherit
-    needs: call-deploy-sandbox
+#     needs: call-deploy-sandbox
