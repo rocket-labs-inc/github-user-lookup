@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '12.x'
+  NODE_VERSION: '16.x'
 
 jobs:
   
@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node: ['10.x', '12.x', '14.x']
+        node: ['16.x', '18.x']
     
     steps:
     - uses: actions/checkout@v2
@@ -62,18 +62,18 @@ jobs:
           fetch-depth: 0   
 
   # Call reusable workflow - https://github.com/rocket-labs-inc/centralized-actions/blob/main/.github/workflows/webapp-deploy.yml
-#   call-deploy-sandbox:
-#     name: 📦 Call Deploy - Sandbox
-#     uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
-#     with:
-#       environment: sandbox
-#     secrets: inherit
-#     needs: [build-and-test, prettier]
-
-  call-deploy-qa:
-    name: 📦 Call Deploy - QA
+  call-deploy-validate:
+    name: 📦 Call Deploy - Validate
     uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
     with:
-      environment: qa
+      environment: validate
     secrets: inherit
+    needs: [build-and-test, prettier]
+
+#   call-deploy-qa:
+#     name: 📦 Call Deploy - QA
+#     uses: rocket-labs-inc/centralized-actions/.github/workflows/webapp-deploy.yml@main
+#     with:
+#       environment: qa
+#     secrets: inherit
 #     needs: call-deploy-sandbox
