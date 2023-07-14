@@ -39,52 +39,27 @@ app.get("/", (req, res) => {
 });
 
 app.post("/user", async (req, res) => {
-  // try
-  // {
-  //     const username = req.body.username
-  //     //...
-  //     var userData = await getUser(username)
-
-  //     var user_created_at = userData.created_at
-
-  //     var created_at_dateFormat = user_created_at.split('T')
-  //     var dateFormatted = created_at_dateFormat[0]
-
-  //     res.render("user", { title: "Profile", userProfile:
-  //     { handle: userData.login, avatar_url: userData.avatar_url, bio: userData.bio, html_url: userData.html_url,
-  //         company: userData.company, location: userData.location, created_at: dateFormatted} });
-  // }
-  // catch(error)
-  // {
-  //     res.render(path.join(__dirname + '/views/404.pug'), {error: error});
-  // }
-
   res.redirect(303, "/user/" + req.body.username);
 });
 
 app.get("/user/:handle", async (req, res) => {
-  console.log("GET - requesting user handle: " + req.params.handle);
+  console.log("GET - requesting user handle: " + req.params.handle); // log the user handle being requested
 
-  const username = req.params.handle;
+  const username = req.params.handle; // get the user handle from the request parameters
 
-  const userData = await getUser(username, res);
+  const userData = await getUser(username, res); // get the user data from the GitHub API
 
-  if (userData) {
-    const userCreatedAt = userData.created_at;
-
-    const createdDateFormat = userCreatedAt.split("T");
-    const dateFormatted = createdDateFormat[0];
-
-    res.render("user", {
-      title: userData.login,
-      userProfile: {
-        handle: userData.login,
-        avatar_url: userData.avatar_url,
-        bio: userData.bio,
-        html_url: userData.html_url,
-        company: userData.company,
-        location: userData.location,
-        created_at: dateFormatted,
+  if (userData) { // if user data is returned
+    res.render("user", { // render the user view
+      title: userData.login, // set the page title to the user's login name
+      userProfile: { // set the user profile data
+        handle: userData.login, // set the user handle
+        avatar_url: userData.avatar_url, // set the user's avatar URL
+        bio: userData.bio, // set the user's bio
+        html_url: userData.html_url, // set the user's GitHub profile URL
+        company: userData.company, // set the user's company
+        location: userData.location, // set the user's location
+        created_at: userData.created_at.split("T")[0], // set the user's creation date
       },
     });
   }
