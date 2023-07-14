@@ -6,11 +6,10 @@ on:
     branches:
       - main
       
-
 env:
-  AZURE_WEBAPP_NAME: rob-actions-cd-demo 
+  AZURE_WEBAPP_NAME: github-user-lookup 
   AZURE_WEBAPP_PACKAGE_PATH: '.'
-  NODE_VERSION: '12.x'
+  NODE_VERSION: '16.x'
 
 jobs:
   
@@ -20,12 +19,12 @@ jobs:
 
     strategy:
       matrix:
-        node: ['10.x', '12.x', '14.x']
+        node: ['16.x', '18.x']
     
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node }}
     - name: npm install, build, and test
@@ -41,12 +40,12 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         ref: ${{ github.head_ref }}
 
     - name: Prettify code
-      uses: creyD/prettier_action@v3.1
+      uses: creyD/prettier_action@v4.3
       with:
         prettier_options: --write **/*.{js,md}
       env:
@@ -58,23 +57,23 @@ jobs:
     needs: [prettier, build-and-test]
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
 
-  webapp-deploy-sandbox:
-    name: 📦 Deploy Code to Sandbox
+  webapp-deploy-validate:
+    name: 📦 Deploy Code to Validate
     runs-on: ubuntu-latest
     needs: [build-and-test, prettier]
     environment:
-      name: sandbox
-      url: "https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/"
+      name: validate
+      url: "https://${{ env.AZURE_WEBAPP_NAME }}-validate.azurewebsites.net/"
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ env.NODE_VERSION }}
     - name: npm install
@@ -86,28 +85,28 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        slot-name: sandbox
+        slot-name: validate
     - name: Check the deployed service URL
-      uses: jtalk/url-health-check-action@v1.2
+      uses: jtalk/url-health-check-action@v3.1
       with:
         # Check the following URLs one by one sequentially
         url: https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/user/rob-derosa
-        follow-redirect: no
-        max-attempts: 30
+        follow-redirect: false
+        max-attempts: 3
         retry-delay: 5s
 
   webapp-deploy-qa:
     name: 📦 Deploy Code to QA
     runs-on: ubuntu-latest
-    needs: [webapp-deploy-sandbox]
+    needs: [webapp-deploy-validate]
     environment:
       name: qa
       url: "https://${{ env.AZURE_WEBAPP_NAME }}-qa.azurewebsites.net/"
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ env.NODE_VERSION }}
     - name: npm install
@@ -121,10 +120,10 @@ jobs:
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         slot-name: qa
     - name: Check the deployed service URL
-      uses: jtalk/url-health-check-action@v1.2
+      uses: jtalk/url-health-check-action@v3.1
       with:
         # Check the following URLs one by one sequentially
         url: https://${{ env.AZURE_WEBAPP_NAME }}-qa.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}-qa.azurewebsites.net/user/rob-derosa
-        follow-redirect: no
-        max-attempts: 30
+        follow-redirect: false
+        max-attempts: 3
         retry-delay: 5s
