@@ -127,6 +127,18 @@ async function getUser(userHandle, res) {
   }
 }
 
+// function to list github user repos
+async function listUserRepos(userHandle) {
+  try {
+    const { data: repos } = await octokit.repos.listForUser({
+      username: userHandle,
+    });
+    return repos;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 /**
  * Module Exports
  */
